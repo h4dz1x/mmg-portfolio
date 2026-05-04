@@ -1,0 +1,1583 @@
+<!doctype html>
+<html lang="bs">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mastermind Portfolio</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      .portfolio,
+      .portfolio *,
+      .portfolio *::before,
+      .portfolio *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      .portfolio {
+        --accent: #6c47c7;
+        --bg-dark: #f6f5f9;
+        --bg-card: #ffffff;
+        --ink: #15131c;
+        font-family: "DM Sans", sans-serif;
+        color: #15131c;
+      }
+
+      /* ═══════════════════════════════════════
+   Cinematic portfolio
+═══════════════════════════════════════ */
+      .portfolio {
+        background: var(--bg-dark);
+        min-height: 100vh;
+        padding-bottom: 80px;
+        color: var(--ink);
+      }
+
+      .portfolio-header {
+        padding: 80px 72px 48px;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        gap: 40px;
+      }
+      .portfolio-eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 28px;
+      }
+      .portfolio-eyebrow span {
+        font-size: 15px;
+        font-weight: 400;
+        color: #15131c;
+        letter-spacing: 0.02em;
+      }
+      .portfolio-title {
+        font-size: 3rem;
+        font-weight: 300;
+        color: #15131c;
+        line-height: 1.1;
+      }
+      .portfolio-subtitle {
+        font-size: 1.125rem;
+        color: rgba(15, 13, 28, 0.35);
+        font-weight: 300;
+        max-width: 340px;
+        text-align: right;
+        line-height: 1.6;
+      }
+
+      /* Tab nav */
+      .portfolio-tabs {
+        display: flex;
+        gap: 0;
+        border-bottom: 1px solid rgba(15, 13, 28, 0.08);
+        padding: 0 72px;
+        flex-wrap: wrap;
+      }
+      .portfolio-tab {
+        padding: 14px 0;
+        margin-right: 40px;
+        font-size: 13px;
+        font-weight: 400;
+        color: rgba(15, 13, 28, 0.3);
+        cursor: pointer;
+        white-space: nowrap;
+        letter-spacing: 0.02em;
+        position: relative;
+        top: 1px;
+        background: none;
+        font-family: inherit;
+        border: 0;
+        border-bottom: 2px solid transparent;
+        appearance: none;
+        -webkit-appearance: none;
+        transition:
+          color 0.2s,
+          border-color 0.2s;
+      }
+      .portfolio-tab:hover {
+        color: rgba(15, 13, 28, 0.6);
+      }
+      .portfolio-tab.active {
+        color: #15131c;
+        border-bottom-color: var(--accent);
+        font-weight: 500;
+      }
+
+      /* Cards */
+      .portfolio-cards {
+        padding: 0 72px;
+      }
+      .portfolio-tabpanel {
+        display: none;
+        padding-top: 56px;
+      }
+      .portfolio-tabpanel.active {
+        display: flex;
+        flex-direction: column;
+        gap: 96px;
+      }
+
+      .portfolio-card {
+        display: grid;
+        grid-template-columns: 1fr 460px;
+        gap: 56px;
+        align-items: start;
+      }
+
+      .portfolio-img-wrap {
+        position: relative;
+        border-radius: 12px;
+        overflow: hidden;
+        aspect-ratio: 16/10;
+      }
+      .portfolio-img-wrap .img-placeholder {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: monospace;
+        font-size: 13px;
+        color: rgba(15, 13, 28, 0.2);
+        letter-spacing: 0.05em;
+        text-align: center;
+        padding: 20px;
+      }
+      .portfolio-img-wrap img.cover {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        filter: saturate(0.92) contrast(1.04) brightness(0.97);
+        transition:
+          filter 0.6s ease,
+          transform 0.9s cubic-bezier(0.2, 0.8, 0.2, 1);
+        will-change: filter, transform;
+      }
+      .portfolio-img-wrap::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 2;
+        background:
+          radial-gradient(
+            110% 70% at 50% 110%,
+            rgba(108, 71, 199, 0.22),
+            transparent 65%
+          ),
+          linear-gradient(
+            180deg,
+            transparent 0%,
+            transparent 50%,
+            rgba(14, 13, 20, 0.18) 100%
+          );
+        transition: opacity 0.6s ease;
+      }
+      .portfolio-img-wrap:hover img.cover {
+        filter: saturate(1) contrast(1) brightness(1);
+        transform: scale(1.025);
+      }
+      .portfolio-img-wrap:hover::before {
+        opacity: 0.35;
+      }
+      .portfolio-logo-img {
+        height: 48px;
+        max-width: 200px;
+        object-fit: contain;
+        display: block;
+      }
+      .portfolio-logo-img.md {
+        height: 67px;
+        max-width: 240px;
+      }
+      .portfolio-logo-img.lg {
+        height: 86px;
+        max-width: 280px;
+      }
+      .portfolio-logo-img.tall {
+        height: 96px;
+        max-width: 96px;
+        border-radius: 8px;
+      }
+
+      .portfolio-info {
+        padding-top: 8px;
+      }
+      .portfolio-logo-slot {
+        margin-bottom: 28px;
+      }
+      .portfolio-logo-placeholder {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        height: 48px;
+        min-width: 120px;
+        padding: 0 20px;
+        border: 1px dashed rgba(15, 13, 28, 0.15);
+        border-radius: 8px;
+        font-size: 11px;
+        font-weight: 400;
+        color: rgba(15, 13, 28, 0.25);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .portfolio-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-bottom: 20px;
+      }
+      .portfolio-chip {
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--accent);
+        border: 1px solid rgba(108, 71, 199, 0.3);
+        padding: 5px 11px;
+        border-radius: 100px;
+        background: rgba(108, 71, 199, 0.1);
+      }
+
+      .portfolio-project-title {
+        font-size: 2rem;
+        font-weight: 300;
+        color: #15131c;
+        line-height: 1.15;
+        margin-bottom: 24px;
+      }
+      .portfolio-divider {
+        height: 1px;
+        background: rgba(15, 13, 28, 0.08);
+        margin-bottom: 24px;
+      }
+      .portfolio-desc {
+        font-size: 14px;
+        line-height: 1.75;
+        color: rgba(15, 13, 28, 0.5);
+        font-weight: 300;
+        margin-bottom: 28px;
+      }
+      .portfolio-clients {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .portfolio-client {
+        font-size: 13px;
+        color: rgba(15, 13, 28, 0.6);
+        font-weight: 400;
+      }
+      .portfolio-client span {
+        color: rgba(15, 13, 28, 0.25);
+        margin-right: 6px;
+      }
+
+      .portfolio-stats-list {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 1px;
+        background: rgba(15, 13, 28, 0.08);
+        border: 1px solid rgba(15, 13, 28, 0.06);
+        border-radius: 10px;
+        overflow: hidden;
+        margin-bottom: 28px;
+      }
+      .portfolio-stats-list.cols-2 {
+        grid-template-columns: 1fr 1fr;
+      }
+      .portfolio-stat-item {
+        padding: 18px 20px;
+        background: #ffffff;
+      }
+      .portfolio-stat-item .big {
+        font-size: 1.625rem;
+        font-weight: 300;
+        color: #15131c;
+        line-height: 1;
+        margin-bottom: 6px;
+      }
+      .portfolio-stat-item .small {
+        font-size: 11px;
+        color: rgba(15, 13, 28, 0.4);
+        line-height: 1.4;
+      }
+
+      .portfolio-proj-sep {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        padding: 0;
+        opacity: 0.5;
+      }
+      .portfolio-proj-sep .line {
+        flex: 1;
+        height: 1px;
+        background: rgba(15, 13, 28, 0.08);
+      }
+      .portfolio-proj-sep .label {
+        font-size: 10px;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: rgba(15, 13, 28, 0.3);
+        font-weight: 500;
+      }
+
+      .bg1 {
+        background: linear-gradient(135deg, #2d1f4e 0%, #1a1230 100%);
+      }
+      .bg2 {
+        background: linear-gradient(135deg, #2a1a1a 0%, #3a1f1f 100%);
+      }
+      .bg3 {
+        background: linear-gradient(135deg, #1c2a1a 0%, #243524 100%);
+      }
+      .bg4 {
+        background: linear-gradient(135deg, #1a1f2e 0%, #232940 100%);
+      }
+      .bg5 {
+        background: linear-gradient(135deg, #2e1a2e 0%, #3a223a 100%);
+      }
+      .bg6 {
+        background: linear-gradient(135deg, #1a2a2e 0%, #1f3540 100%);
+      }
+      .bg7 {
+        background: linear-gradient(135deg, #2e2a1a 0%, #3a341f 100%);
+      }
+
+      @media (max-width: 1200px) {
+        .portfolio-header {
+          padding: 64px 40px 40px;
+        }
+        .portfolio-tabs {
+          padding: 0 40px;
+        }
+        .portfolio-cards {
+          padding: 0 40px;
+        }
+        .portfolio-card {
+          grid-template-columns: 1fr 380px;
+          gap: 40px;
+        }
+        .portfolio-tab {
+          margin-right: 28px;
+        }
+      }
+
+      @media (max-width: 900px) {
+        .portfolio-header {
+          padding: 56px 24px 32px;
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 24px;
+        }
+        .portfolio-title {
+          font-size: 2.25rem;
+        }
+        .portfolio-subtitle {
+          text-align: left;
+          max-width: 100%;
+        }
+        .portfolio-tabs {
+          padding: 0 24px;
+          flex-wrap: nowrap;
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
+          scrollbar-width: none;
+        }
+        .portfolio-tabs::-webkit-scrollbar {
+          display: none;
+        }
+        .portfolio-tab {
+          margin-right: 24px;
+          flex-shrink: 0;
+        }
+        .portfolio-cards {
+          padding: 0 24px;
+        }
+        .portfolio-card {
+          grid-template-columns: 1fr;
+          gap: 32px;
+        }
+        .portfolio-tabpanel.active {
+          gap: 64px;
+          padding-top: 40px;
+        }
+        .portfolio-project-title {
+          font-size: 1.5rem;
+          margin-bottom: 20px;
+        }
+        .portfolio-stat-item .big {
+          font-size: 1.375rem;
+        }
+      }
+
+      @media (max-width: 560px) {
+        .portfolio-header {
+          padding: 40px 20px 24px;
+        }
+        .portfolio-eyebrow {
+          margin-bottom: 20px;
+        }
+        .portfolio-title {
+          font-size: 1.75rem;
+        }
+        .portfolio-subtitle {
+          font-size: 1rem;
+        }
+        .portfolio-tabs {
+          padding: 0 20px;
+        }
+        .portfolio-cards {
+          padding: 0 20px;
+        }
+        .portfolio-tabpanel.active {
+          gap: 56px;
+        }
+        .portfolio-stats-list,
+        .portfolio-stats-list.cols-2 {
+          grid-template-columns: 1fr;
+        }
+        .portfolio-stat-item {
+          padding: 14px 16px;
+        }
+        .portfolio-logo-img {
+          height: 40px;
+        }
+        .portfolio-logo-img.md {
+          height: 56px;
+        }
+        .portfolio-logo-img.lg {
+          height: 68px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <section class="portfolio">
+      <div class="portfolio-header">
+        <div>
+          <div class="portfolio-eyebrow">
+            <svg
+              width="17"
+              height="17"
+              viewBox="0 0 17 17"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+            >
+              <path
+                d="M15.843 0.856009C15.4061 0.419799 14.832 0.199219 14.2535 0.199219H2.75143C1.50677 0.199219 0.5 1.20455 0.5 2.44319C0.5 3.68183 1.50677 4.69141 2.75143 4.69141H8.79559L1.15773 12.271C0.283353 13.1484 0.283353 14.568 1.15773 15.4454C2.03635 16.3228 3.46225 16.3228 4.34088 15.4454L12.0014 7.84457V16.1022H14.2528C14.6104 16.1022 14.9721 16.0187 15.2992 15.8462C15.4274 15.7755 15.5555 15.6964 15.6702 15.5995C15.7318 15.5507 15.7892 15.4984 15.8423 15.4454L15.8819 15.4058C15.8996 15.3924 15.9081 15.3747 15.9216 15.362C16.306 14.9342 16.5 14.3962 16.5 13.8582V2.44319C16.5 1.86983 16.2791 1.29222 15.8423 0.856009H15.843Z"
+                fill="#BFACFA"
+              />
+            </svg>
+            <span>Portfolio</span>
+          </div>
+          <h1 class="portfolio-title">
+            Priče koje smo<br />izgradili zajedno.
+          </h1>
+        </div>
+        <p class="portfolio-subtitle">
+          Svaki projekat je dokaz šta je moguće kada strategija sretne
+          kreativnost.
+        </p>
+      </div>
+
+      <div class="portfolio-tabs" role="tablist">
+        <button
+          type="button"
+          class="portfolio-tab active"
+          data-tab="0"
+          role="tab"
+          aria-selected="true"
+        >
+          IOM Montenegro
+        </button>
+        <button
+          type="button"
+          class="portfolio-tab"
+          data-tab="1"
+          role="tab"
+          aria-selected="false"
+        >
+          Novogodišnja priča
+        </button>
+        <button
+          type="button"
+          class="portfolio-tab"
+          data-tab="2"
+          role="tab"
+          aria-selected="false"
+        >
+          Montenegro Beer Fest
+        </button>
+        <button
+          type="button"
+          class="portfolio-tab"
+          data-tab="3"
+          role="tab"
+          aria-selected="false"
+        >
+          Centar za kulturu Plav
+        </button>
+        <button
+          type="button"
+          class="portfolio-tab"
+          data-tab="4"
+          role="tab"
+          aria-selected="false"
+        >
+          Green City
+        </button>
+        <button
+          type="button"
+          class="portfolio-tab"
+          data-tab="5"
+          role="tab"
+          aria-selected="false"
+        >
+          Prijestonica Cetinje
+        </button>
+        <button
+          type="button"
+          class="portfolio-tab"
+          data-tab="6"
+          role="tab"
+          aria-selected="false"
+        >
+          Građanska alijansa
+        </button>
+        <button
+          type="button"
+          class="portfolio-tab"
+          data-tab="7"
+          role="tab"
+          aria-selected="false"
+        >
+          Mesoestetic
+        </button>
+        <button
+          type="button"
+          class="portfolio-tab"
+          data-tab="8"
+          role="tab"
+          aria-selected="false"
+        >
+          Profhilo
+        </button>
+      </div>
+
+      <div class="portfolio-cards">
+        <!-- TAB 0: IOM MONTENEGRO -->
+        <div class="portfolio-tabpanel active" role="tabpanel">
+          <article class="portfolio-card">
+            <div class="portfolio-img-wrap">
+              <img
+                class="cover"
+                src="https://cdn.jsdelivr.net/gh/h4dz1x/mmg-portfolio@main/assets/iom/labour-migration.webp"
+                alt="IOM Labour Migration"
+              />
+            </div>
+            <div class="portfolio-info">
+              <div class="portfolio-logo-slot">
+                <img
+                  class="portfolio-logo-img"
+                  src="https://cdn.jsdelivr.net/gh/h4dz1x/mmg-portfolio@main/assets/iom/iom-logo.webp"
+                  alt="IOM"
+                />
+              </div>
+              <div class="portfolio-tags">
+                <span class="portfolio-chip">Create</span>
+              </div>
+              <h2 class="portfolio-project-title">IOM — Labour Migration</h2>
+              <div class="portfolio-divider"></div>
+              <p class="portfolio-desc">
+                Za IOM Montenegro, u okviru Labour Migration projekta,
+                Mastermind tim je kreirao kratke filmove koji prikazuju primjere
+                uspješne radne migracije u Crnoj Gori. Pored toga, realizovali
+                smo foto i video pokrivanje međunarodne konferencije posvećene
+                temama radne migracije, sa fokusom na autentične priče,
+                institucionalni kontekst i vizuelno predstavljanje projekta.
+              </p>
+              <div class="portfolio-clients">
+                <div class="portfolio-client"><span>→</span>IOM Montenegro</div>
+              </div>
+            </div>
+          </article>
+
+          <div class="portfolio-proj-sep">
+            <div class="line"></div>
+            <div class="label">02</div>
+            <div class="line"></div>
+          </div>
+
+          <article class="portfolio-card">
+            <div class="portfolio-img-wrap">
+              <img
+                class="cover"
+                src="https://cdn.jsdelivr.net/gh/h4dz1x/mmg-portfolio@main/assets/iom/tice-te-se.webp"
+                alt="Tiče te se"
+              />
+            </div>
+            <div class="portfolio-info">
+              <div class="portfolio-logo-slot">
+                <img
+                  class="portfolio-logo-img"
+                  src="https://cdn.jsdelivr.net/gh/h4dz1x/mmg-portfolio@main/assets/iom/iom-logo.webp"
+                  alt="IOM"
+                />
+              </div>
+              <div class="portfolio-tags">
+                <span class="portfolio-chip">Solutions</span>
+                <span class="portfolio-chip">Create</span>
+                <span class="portfolio-chip">Digital</span>
+                <span class="portfolio-chip">Ads</span>
+                <span class="portfolio-chip">Event</span>
+              </div>
+              <h2 class="portfolio-project-title">IOM — Tiče te se</h2>
+              <div class="portfolio-stats-list">
+                <div class="portfolio-stat-item">
+                  <div class="big">928k+</div>
+                  <div class="small">pregleda video sadržaja</div>
+                </div>
+                <div class="portfolio-stat-item">
+                  <div class="big">180k</div>
+                  <div class="small">interakcija</div>
+                </div>
+                <div class="portfolio-stat-item">
+                  <div class="big">167k+</div>
+                  <div class="small">korisnika dosegnuto</div>
+                </div>
+              </div>
+              <div class="portfolio-divider"></div>
+              <p class="portfolio-desc">
+                Za kampanju „Tiče te se", realizovanu u okviru projekta „Jačanje
+                napora u borbi protiv trgovine ljudima u Crnoj Gori", Mastermind
+                tim je razvio kompletan kreativni pravac kampanje — od koncepta
+                i slogana, do vizuelnog identiteta, narativa i produkcije
+                sadržaja. Kampanja je bila usmjerena na podizanje svijesti o
+                radnoj eksploataciji i trgovini ljudima, kroz video produkciju,
+                digitalnu komunikaciju, plaćeno oglašavanje i javne događaje.
+              </p>
+              <div class="portfolio-clients">
+                <div class="portfolio-client"><span>→</span>IOM Montenegro</div>
+              </div>
+            </div>
+          </article>
+
+          <div class="portfolio-proj-sep">
+            <div class="line"></div>
+            <div class="label">03</div>
+            <div class="line"></div>
+          </div>
+
+          <article class="portfolio-card">
+            <div class="portfolio-img-wrap">
+              <img
+                class="cover"
+                src="https://cdn.jsdelivr.net/gh/h4dz1x/mmg-portfolio@main/assets/iom/diaspora-engagement.webp"
+                alt="Vraćamo znanje kući"
+              />
+            </div>
+            <div class="portfolio-info">
+              <div class="portfolio-logo-slot">
+                <img
+                  class="portfolio-logo-img"
+                  src="https://cdn.jsdelivr.net/gh/h4dz1x/mmg-portfolio@main/assets/iom/iom-logo.webp"
+                  alt="IOM"
+                />
+              </div>
+              <div class="portfolio-tags">
+                <span class="portfolio-chip">Solutions</span>
+                <span class="portfolio-chip">Create</span>
+                <span class="portfolio-chip">Digital</span>
+                <span class="portfolio-chip">Ads</span>
+                <span class="portfolio-chip">Event</span>
+              </div>
+              <h2 class="portfolio-project-title">IOM — Vraćamo znanje kući</h2>
+              <div class="portfolio-stats-list">
+                <div class="portfolio-stat-item">
+                  <div class="big">187k+</div>
+                  <div class="small">pregleda sadržaja</div>
+                </div>
+                <div class="portfolio-stat-item">
+                  <div class="big">94k+</div>
+                  <div class="small">interakcija</div>
+                </div>
+                <div class="portfolio-stat-item">
+                  <div class="big">119k+</div>
+                  <div class="small">korisnika dosegnuto</div>
+                </div>
+              </div>
+              <div class="portfolio-divider"></div>
+              <p class="portfolio-desc">
+                Za kampanju „Vraćamo znanje kući", u okviru projekta
+                „Angažovanje dijaspore za održivi razvoj Crne Gore", Mastermind
+                tim je razvio marketing strategiju usmjerenu na digitalni
+                engagement ciljne grupe — dijaspore. Radili smo vizuelni
+                identitet kampanje, prateće grafičke materijale, copywriting,
+                foto i video produkciju, montažu, postprodukciju, upravljanje
+                društvenim mrežama i Meta Ads kampanju ciljanu prema relevantnoj
+                dijaspori.
+              </p>
+              <div class="portfolio-clients">
+                <div class="portfolio-client"><span>→</span>IOM Montenegro</div>
+              </div>
+            </div>
+          </article>
+
+          <div class="portfolio-proj-sep">
+            <div class="line"></div>
+            <div class="label">04</div>
+            <div class="line"></div>
+          </div>
+
+          <article class="portfolio-card">
+            <div class="portfolio-img-wrap">
+              <img
+                class="cover"
+                src="https://cdn.jsdelivr.net/gh/h4dz1x/mmg-portfolio@main/assets/iom/dani-dijaspore-2024.webp"
+                alt="Dani dijaspore 2024"
+              />
+            </div>
+            <div class="portfolio-info">
+              <div class="portfolio-logo-slot">
+                <img
+                  class="portfolio-logo-img"
+                  src="https://cdn.jsdelivr.net/gh/h4dz1x/mmg-portfolio@main/assets/iom/iom-logo.webp"
+                  alt="IOM"
+                />
+              </div>
+              <div class="portfolio-tags">
+                <span class="portfolio-chip">Solutions</span>
+                <span class="portfolio-chip">Create</span>
+                <span class="portfolio-chip">Ads</span>
+                <span class="portfolio-chip">Event</span>
+              </div>
+              <h2 class="portfolio-project-title">Dani dijaspore 2024</h2>
+              <div class="portfolio-stats-list">
+                <div class="portfolio-stat-item">
+                  <div class="big">129k+</div>
+                  <div class="small">
+                    korisnika dosegnuto na društvenim mrežama
+                  </div>
+                </div>
+                <div class="portfolio-stat-item">
+                  <div class="big">77k+</div>
+                  <div class="small">trominutnih / video pregleda sadržaja</div>
+                </div>
+                <div class="portfolio-stat-item">
+                  <div class="big">8.1k+</div>
+                  <div class="small">posjeta profilima</div>
+                </div>
+              </div>
+              <div class="portfolio-divider"></div>
+              <p class="portfolio-desc">
+                Za manifestaciju Dani dijaspore 2024, Mastermind tim je radio na
+                organizaciji i promociji događaja koji povezuje crnogorsku
+                dijasporu sa domovinom. Osmislili smo vizuelni identitet,
+                kreirali sadržaj za društvene mreže, realizovali foto i video
+                produkciju, pripremili promotivne materijale i podržali
+                komunikaciju događaja kroz digitalne i offline kanale.
+              </p>
+              <div class="portfolio-clients">
+                <div class="portfolio-client"><span>→</span>IOM Montenegro</div>
+                <div class="portfolio-client">
+                  <span>→</span>Ministarstvo dijaspore
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <!-- TAB 1: NOVOGODIŠNJA PRIČA -->
+        <div class="portfolio-tabpanel" role="tabpanel">
+          <article class="portfolio-card">
+            <div class="portfolio-img-wrap">
+              <img
+                class="cover"
+                src="https://cdn.jsdelivr.net/gh/h4dz1x/mmg-portfolio@main/assets/ng/ng-1.webp"
+                alt="Novogodišnja priča I"
+              />
+            </div>
+            <div class="portfolio-info">
+              <div class="portfolio-logo-slot">
+                <img
+                  class="portfolio-logo-img"
+                  src="https://cdn.jsdelivr.net/gh/h4dz1x/mmg-portfolio@main/assets/ng/logo.webp"
+                  alt="Novogodišnja priča"
+                />
+              </div>
+              <div class="portfolio-tags">
+                <span class="portfolio-chip">Solutions</span>
+                <span class="portfolio-chip">Create</span>
+                <span class="portfolio-chip">Digital</span>
+                <span class="portfolio-chip">Ads</span>
+                <span class="portfolio-chip">Event</span>
+              </div>
+              <h2 class="portfolio-project-title">Novogodišnja priča I</h2>
+              <div class="portfolio-divider"></div>
+              <p class="portfolio-desc">
+                Za prvo izdanje Novogodišnje priče u Prijestonici, Mastermind
+                tim je učestvovao u stvaranju novog zimskog događaja koji je
+                Cetinje pozicionirao kao važno praznično središte. Radili smo na
+                strategiji, vizuelnom identitetu, komunikaciji na društvenim
+                mrežama, brendiranju, digitalnom sadržaju i oglašavanju, sa
+                ciljem da manifestacija dobije prepoznatljiv ton, atmosferu i
+                publiku.
+              </p>
+              <div class="portfolio-clients">
+                <div class="portfolio-client">
+                  <span>→</span>Novogodišnja priča
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <div class="portfolio-proj-sep">
+            <div class="line"></div>
+            <div class="label">02</div>
+            <div class="line"></div>
+          </div>
+
+          <article class="portfolio-card">
+            <div class="portfolio-img-wrap">
+              <img
+                class="cover"
+                src="https://cdn.jsdelivr.net/gh/h4dz1x/mmg-portfolio@main/assets/ng/ng-2.webp"
+                alt="Novogodišnja priča II"
+              />
+            </div>
+            <div class="portfolio-info">
+              <div class="portfolio-logo-slot">
+                <img
+                  class="portfolio-logo-img"
+                  src="https://cdn.jsdelivr.net/gh/h4dz1x/mmg-portfolio@main/assets/ng/logo.webp"
+                  alt="Novogodišnja priča"
+                />
+              </div>
+              <div class="portfolio-tags">
+                <span class="portfolio-chip">Solutions</span>
+                <span class="portfolio-chip">Create</span>
+                <span class="portfolio-chip">Digital</span>
+                <span class="portfolio-chip">Ads</span>
+                <span class="portfolio-chip">Event</span>
+              </div>
+              <h2 class="portfolio-project-title">Novogodišnja priča II</h2>
+              <div class="portfolio-divider"></div>
+              <p class="portfolio-desc">
+                Za drugo izdanje Novogodišnje priče, Mastermind tim je nastavio
+                da razvija prepoznatljiv praznični identitet manifestacije.
+                Fokus je bio na jačanju komunikacije, jasnijem vizuelnom
+                sistemu, produkciji sadržaja i promociji kroz digitalne i
+                outdoor kanale. Time je manifestacija dodatno učvrstila poziciju
+                jednog od najvažnijih zimskih događaja u Prijestonici.
+              </p>
+              <div class="portfolio-clients">
+                <div class="portfolio-client">
+                  <span>→</span>Novogodišnja priča
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <div class="portfolio-proj-sep">
+            <div class="line"></div>
+            <div class="label">03</div>
+            <div class="line"></div>
+          </div>
+
+          <article class="portfolio-card">
+            <div class="portfolio-img-wrap">
+              <img
+                class="cover"
+                src="https://cdn.jsdelivr.net/gh/h4dz1x/mmg-portfolio@main/assets/ng/ng-3.webp"
+                alt="Novogodišnja priča III"
+              />
+            </div>
+            <div class="portfolio-info">
+              <div class="portfolio-logo-slot">
+                <img
+                  class="portfolio-logo-img"
+                  src="https://cdn.jsdelivr.net/gh/h4dz1x/mmg-portfolio@main/assets/ng/logo.webp"
+                  alt="Novogodišnja priča"
+                />
+              </div>
+              <div class="portfolio-tags">
+                <span class="portfolio-chip">Solutions</span>
+                <span class="portfolio-chip">Create</span>
+                <span class="portfolio-chip">Digital</span>
+                <span class="portfolio-chip">Ads</span>
+                <span class="portfolio-chip">Event</span>
+                <span class="portfolio-chip">Flow</span>
+              </div>
+              <h2 class="portfolio-project-title">Novogodišnja priča III</h2>
+              <div class="portfolio-divider"></div>
+              <p class="portfolio-desc">
+                Za treće izdanje Novogodišnje priče, Mastermind tim je proširio
+                komunikacioni sistem manifestacije kroz dodatnu web podršku,
+                digitalni sadržaj i snažniju promociju. Radili smo strategiju,
+                komunikaciju, vizuelni identitet, copywriting, foto i video
+                produkciju, outdoor i digitalno oglašavanje, sa ciljem da
+                posjetioci na jednom mjestu dobiju jasnu informaciju, atmosferu
+                i razlog za dolazak.
+              </p>
+              <div class="portfolio-clients">
+                <div class="portfolio-client">
+                  <span>→</span>Novogodišnja priča
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <div class="portfolio-proj-sep">
+            <div class="line"></div>
+            <div class="label">04</div>
+            <div class="line"></div>
+          </div>
+
+          <article class="portfolio-card">
+            <div class="portfolio-img-wrap">
+              <img
+                class="cover"
+                src="https://cdn.jsdelivr.net/gh/h4dz1x/mmg-portfolio@main/assets/ng/ng-4.webp"
+                alt="Novogodišnja priča IV"
+              />
+            </div>
+            <div class="portfolio-info">
+              <div class="portfolio-logo-slot">
+                <img
+                  class="portfolio-logo-img"
+                  src="https://cdn.jsdelivr.net/gh/h4dz1x/mmg-portfolio@main/assets/ng/logo.webp"
+                  alt="Novogodišnja priča"
+                />
+              </div>
+              <div class="portfolio-tags">
+                <span class="portfolio-chip">Solutions</span>
+                <span class="portfolio-chip">Create</span>
+                <span class="portfolio-chip">Digital</span>
+                <span class="portfolio-chip">Ads</span>
+                <span class="portfolio-chip">Event</span>
+                <span class="portfolio-chip">Flow</span>
+              </div>
+              <h2 class="portfolio-project-title">Novogodišnja priča IV</h2>
+              <div class="portfolio-stats-list">
+                <div class="portfolio-stat-item">
+                  <div class="big">7.1m+</div>
+                  <div class="small">pregleda sadržaja</div>
+                </div>
+                <div class="portfolio-stat-item">
+                  <div class="big">700k+</div>
+                  <div class="small">korisnika na Instagramu i Facebooku</div>
+                </div>
+                <div class="portfolio-stat-item">
+                  <div class="big">120k+</div>
+                  <div class="small">interakcija</div>
+                </div>
+              </div>
+              <div class="portfolio-divider"></div>
+              <p class="portfolio-desc">
+                Za četvrto izdanje Novogodišnje priče u Prijestonici, Mastermind
+                tim je radio na nastavku i unapređenju komunikacije
+                manifestacije koja je već postala prepoznatljiv dio zimske
+                ponude Cetinja. Projekat je obuhvatio komunikacionu strategiju,
+                vizuelni sistem, digitalni sadržaj, foto i video produkciju,
+                outdoor promociju, Meta oglašavanje, event promociju i web
+                podršku.
+              </p>
+              <div class="portfolio-clients">
+                <div class="portfolio-client">
+                  <span>→</span>Novogodišnja priča
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <!-- TAB 2: MONTENEGRO BEER FEST -->
+        <div class="portfolio-tabpanel" role="tabpanel">
+          <article class="portfolio-card">
+            <div class="portfolio-img-wrap">
+              <img
+                class="cover"
+                src="https://cdn.jsdelivr.net/gh/h4dz1x/mmg-portfolio@main/assets/mbf/mbf-2023.webp"
+                alt="Montenegro Beer Fest III"
+              />
+            </div>
+            <div class="portfolio-info">
+              <div class="portfolio-logo-slot">
+                <img
+                  class="portfolio-logo-img"
+                  src="https://cdn.jsdelivr.net/gh/h4dz1x/mmg-portfolio@main/assets/mbf/logo.svg"
+                  alt="Montenegro Beer Fest"
+                />
+              </div>
+              <div class="portfolio-tags">
+                <span class="portfolio-chip">Solutions</span>
+                <span class="portfolio-chip">Create</span>
+                <span class="portfolio-chip">Digital</span>
+                <span class="portfolio-chip">Ads</span>
+                <span class="portfolio-chip">Event</span>
+                <span class="portfolio-chip">Flow</span>
+              </div>
+              <h2 class="portfolio-project-title">Montenegro Beer Fest III</h2>
+              <div class="portfolio-stats-list">
+                <div class="portfolio-stat-item">
+                  <div class="big">4.5m+</div>
+                  <div class="small">impresija</div>
+                </div>
+                <div class="portfolio-stat-item">
+                  <div class="big">600k</div>
+                  <div class="small">ljudi na Facebooku i Instagramu</div>
+                </div>
+                <div class="portfolio-stat-item">
+                  <div class="big">130k+</div>
+                  <div class="small">profilnih posjeta</div>
+                </div>
+              </div>
+              <div class="portfolio-divider"></div>
+              <p class="portfolio-desc">
+                Za Montenegro Beer Fest III, Mastermind tim je radio na
+                komunikaciji festivala koji se pozicionirao kao jedan od
+                ključnih događaja na kulturnoj i turističkoj mapi Crne Gore.
+                Kroz strategiju, društvene mreže, oglašavanje, PR, foto i video
+                produkciju, event podršku i web komunikaciju, festival je dobio
+                snažno digitalno prisustvo i prepoznatljiv identitet koji je
+                dodatno povećao interesovanje publike.
+              </p>
+              <div class="portfolio-clients">
+                <div class="portfolio-client">
+                  <span>→</span>Montenegro Beer Fest III
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <div class="portfolio-proj-sep">
+            <div class="line"></div>
+            <div class="label">02</div>
+            <div class="line"></div>
+          </div>
+
+          <article class="portfolio-card">
+            <div class="portfolio-img-wrap">
+              <img
+                class="cover"
+                src="https://cdn.jsdelivr.net/gh/h4dz1x/mmg-portfolio@main/assets/mbf/mbf-2024.webp"
+                alt="Montenegro Beer Fest IV"
+              />
+            </div>
+            <div class="portfolio-info">
+              <div class="portfolio-logo-slot">
+                <img
+                  class="portfolio-logo-img"
+                  src="https://cdn.jsdelivr.net/gh/h4dz1x/mmg-portfolio@main/assets/mbf/logo.svg"
+                  alt="Montenegro Beer Fest"
+                />
+              </div>
+              <div class="portfolio-tags">
+                <span class="portfolio-chip">Solutions</span>
+                <span class="portfolio-chip">Create</span>
+                <span class="portfolio-chip">Digital</span>
+                <span class="portfolio-chip">Ads</span>
+                <span class="portfolio-chip">Event</span>
+                <span class="portfolio-chip">Flow</span>
+              </div>
+              <h2 class="portfolio-project-title">Montenegro Beer Fest IV</h2>
+              <div class="portfolio-stats-list">
+                <div class="portfolio-stat-item">
+                  <div class="big">6m</div>
+                  <div class="small">impresija</div>
+                </div>
+                <div class="portfolio-stat-item">
+                  <div class="big">15k+</div>
+                  <div class="small">pratilaca na društvenim mrežama</div>
+                </div>
+                <div class="portfolio-stat-item">
+                  <div class="big">90k+</div>
+                  <div class="small">posjetilaca festivala</div>
+                </div>
+              </div>
+              <div class="portfolio-divider"></div>
+              <p class="portfolio-desc">
+                Za Montenegro Beer Fest IV, Mastermind tim je nastavio razvoj
+                festivalske komunikacije kroz strategiju, copywriting, dizajn,
+                foto i video produkciju, digitalni vizuelni sistem, upravljanje
+                nalozima, outdoor oglašavanje, media buying, PR aktivnosti i web
+                podršku. Fokus je bio na kontinuitetu kampanje, jasnom
+                predstavljanju izvođača i stvaranju atmosfere koja se prenosi sa
+                digitalnih kanala na sam događaj.
+              </p>
+              <div class="portfolio-clients">
+                <div class="portfolio-client">
+                  <span>→</span>Montenegro Beer Fest IV
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <div class="portfolio-proj-sep">
+            <div class="line"></div>
+            <div class="label">03</div>
+            <div class="line"></div>
+          </div>
+
+          <article class="portfolio-card">
+            <div class="portfolio-img-wrap">
+              <img
+                class="cover"
+                src="https://cdn.jsdelivr.net/gh/h4dz1x/mmg-portfolio@main/assets/mbf/mbf-2025.webp"
+                alt="Montenegro Beer Fest V"
+              />
+            </div>
+            <div class="portfolio-info">
+              <div class="portfolio-logo-slot">
+                <img
+                  class="portfolio-logo-img"
+                  src="https://cdn.jsdelivr.net/gh/h4dz1x/mmg-portfolio@main/assets/mbf/logo.svg"
+                  alt="Montenegro Beer Fest"
+                />
+              </div>
+              <div class="portfolio-tags">
+                <span class="portfolio-chip">Solutions</span>
+                <span class="portfolio-chip">Create</span>
+                <span class="portfolio-chip">Digital</span>
+                <span class="portfolio-chip">Ads</span>
+                <span class="portfolio-chip">Event</span>
+                <span class="portfolio-chip">Flow</span>
+              </div>
+              <h2 class="portfolio-project-title">Montenegro Beer Fest V</h2>
+              <div class="portfolio-stats-list">
+                <div class="portfolio-stat-item">
+                  <div class="big">7.7m+</div>
+                  <div class="small">pregleda na društvenim mrežama</div>
+                </div>
+                <div class="portfolio-stat-item">
+                  <div class="big">800k+</div>
+                  <div class="small">korisnika na Instagramu i Facebooku</div>
+                </div>
+                <div class="portfolio-stat-item">
+                  <div class="big">500k+</div>
+                  <div class="small">video pregleda na TikTok-u</div>
+                </div>
+              </div>
+              <div class="portfolio-divider"></div>
+              <p class="portfolio-desc">
+                Za Montenegro Beer Fest V, Mastermind tim je kreirao i vodio
+                kompletan komunikacioni sistem festivala — od marketing,
+                digitalne i komunikacione strategije, do copywritinga,
+                brendinga, vizuelnog sistema, print materijala, foto i video
+                produkcije, digitalnog sadržaja, Meta oglašavanja, outdoor
+                promocije, PR-a, email i Viber komunikacije, event menadžmenta i
+                web podrške.
+              </p>
+              <div class="portfolio-clients">
+                <div class="portfolio-client">
+                  <span>→</span>Montenegro Beer Fest V
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <!-- TAB 3: CENTAR ZA KULTURU PLAV -->
+        <div class="portfolio-tabpanel" role="tabpanel">
+          <article class="portfolio-card">
+            <div class="portfolio-img-wrap">
+              <img
+                class="cover"
+                src="https://cdn.jsdelivr.net/gh/h4dz1x/mmg-portfolio@main/assets/borovnice/cover-v2.webp"
+                alt="Dani borovnice"
+              />
+            </div>
+            <div class="portfolio-info">
+              <div class="portfolio-logo-slot">
+                <img
+                  class="portfolio-logo-img tall"
+                  src="https://cdn.jsdelivr.net/gh/h4dz1x/mmg-portfolio@main/assets/borovnice/logo.webp"
+                  alt="Dani borovnice"
+                />
+              </div>
+              <div class="portfolio-tags">
+                <span class="portfolio-chip">Solutions</span>
+                <span class="portfolio-chip">Create</span>
+                <span class="portfolio-chip">Digital</span>
+                <span class="portfolio-chip">Ads</span>
+                <span class="portfolio-chip">Flow</span>
+              </div>
+              <h2 class="portfolio-project-title">Dani borovnice</h2>
+              <div class="portfolio-stats-list">
+                <div class="portfolio-stat-item">
+                  <div class="big">1.87m+</div>
+                  <div class="small">pregleda sadržaja</div>
+                </div>
+                <div class="portfolio-stat-item">
+                  <div class="big">1.4m</div>
+                  <div class="small">korisnika dosegnuto</div>
+                </div>
+                <div class="portfolio-stat-item">
+                  <div class="big">157k+</div>
+                  <div class="small">interakcija</div>
+                </div>
+              </div>
+              <div class="portfolio-divider"></div>
+              <p class="portfolio-desc">
+                Za manifestaciju Dani borovnice, Mastermind tim je kreirao jasnu
+                komunikacijsku strategiju i preuzeo vođenje digitalnih kanala,
+                sa ciljem da jedan od najvažnijih događaja Plava bude
+                predstavljen prepoznatljivo, savremeno i atraktivno. Kroz
+                copywriting, foto i video produkciju, digitalni vizuelni sistem,
+                account management, Meta oglašavanje, media buying i PR, spojili
+                smo lokalni duh manifestacije sa savremenim digitalnim pristupom
+                i dodatno je pozicionirali kao nezaobilazan ljetnji događaj u
+                regionu.
+              </p>
+              <div class="portfolio-clients">
+                <div class="portfolio-client">
+                  <span>→</span>Centar za kulturu Plav
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <div class="portfolio-proj-sep">
+            <div class="line"></div>
+            <div class="label">02</div>
+            <div class="line"></div>
+          </div>
+
+          <article class="portfolio-card">
+            <div class="portfolio-img-wrap">
+              <img
+                class="cover"
+                src="https://cdn.jsdelivr.net/gh/h4dz1x/mmg-portfolio@main/assets/plav/likovna-izlozba.webp"
+                alt="Likovna izložba — Plavska kulturna jesen 2025"
+              />
+            </div>
+            <div class="portfolio-info">
+              <div class="portfolio-logo-slot">
+                <img
+                  class="portfolio-logo-img md"
+                  src="https://cdn.jsdelivr.net/gh/h4dz1x/mmg-portfolio@main/assets/plav/pkj-logo.png"
+                  alt="Plavska kulturna jesen"
+                />
+              </div>
+              <div class="portfolio-tags">
+                <span class="portfolio-chip">Solutions</span>
+                <span class="portfolio-chip">Create</span>
+                <span class="portfolio-chip">Digital</span>
+                <span class="portfolio-chip">Ads</span>
+              </div>
+              <h2 class="portfolio-project-title">
+                Plavska kulturna jesen 2025
+              </h2>
+              <div class="portfolio-stats-list">
+                <div class="portfolio-stat-item">
+                  <div class="big">1M+</div>
+                  <div class="small">ukupnih pregleda</div>
+                </div>
+                <div class="portfolio-stat-item">
+                  <div class="big">182K</div>
+                  <div class="small">jedinstvenih korisnika</div>
+                </div>
+                <div class="portfolio-stat-item">
+                  <div class="big">70K+</div>
+                  <div class="small">reach-a</div>
+                </div>
+              </div>
+              <div class="portfolio-divider"></div>
+              <p class="portfolio-desc">
+                Za manifestaciju Plavska kulturna jesen 2025, održanu od 2. do
+                6. oktobra u organizaciji Centra za kulturu „Husein Bašić",
+                Mastermind tim je isporučio kompletnu marketinšku i produkcijsku
+                podršku. Radili smo na strategiji, komunikaciji, kreativnoj
+                produkciji, vizuelnom sistemu, foto i video sadržaju, digitalnom
+                nastupu, promociji i PR-u. Fokus je bio da manifestacija dobije
+                jasan identitet, kontinuiranu prisutnost tokom trajanja programa
+                i sadržaj koji ostaje vrijedan i nakon završetka događaja.
+              </p>
+              <div class="portfolio-clients">
+                <div class="portfolio-client">
+                  <span>→</span>Centar za kulturu Plav
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <!-- TAB 4: GREEN CITY -->
+        <div class="portfolio-tabpanel" role="tabpanel">
+          <article class="portfolio-card">
+            <div class="portfolio-img-wrap">
+              <img
+                class="cover"
+                src="https://cdn.jsdelivr.net/gh/h4dz1x/mmg-portfolio@main/assets/greencity/cover-v3.webp"
+                alt="Green City"
+              />
+            </div>
+            <div class="portfolio-info">
+              <div class="portfolio-logo-slot">
+                <img
+                  class="portfolio-logo-img lg"
+                  src="https://cdn.jsdelivr.net/gh/h4dz1x/mmg-portfolio@main/assets/greencity/logo.webp"
+                  alt="Green City"
+                />
+              </div>
+              <div class="portfolio-tags">
+                <span class="portfolio-chip">Ads</span>
+                <span class="portfolio-chip">MasterLED</span>
+              </div>
+              <h2 class="portfolio-project-title">Green City</h2>
+              <div class="portfolio-stats-list">
+                <div class="portfolio-stat-item">
+                  <div class="big">1.5m+</div>
+                  <div class="small">pregleda sadržaja</div>
+                </div>
+                <div class="portfolio-stat-item">
+                  <div class="big">4.3k+</div>
+                  <div class="small">klikova ka web sajtu</div>
+                </div>
+                <div class="portfolio-stat-item">
+                  <div class="big">181</div>
+                  <div class="small">verifikovanih leadova</div>
+                </div>
+              </div>
+              <div class="portfolio-divider"></div>
+              <p class="portfolio-desc">
+                Za Green City, Mastermind tim je kroz MasterLED realizovao
+                outdoor promociju usmjerenu na veću vidljivost brenda u urbanom
+                prostoru. Kampanja je koristila pokretne LED bilborde kao
+                dinamičan format oglašavanja, čime je poruka klijenta dobila
+                veću fleksibilnost, mobilnost i prisustvo pred publikom.
+              </p>
+              <div class="portfolio-clients">
+                <div class="portfolio-client"><span>→</span>Green City</div>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <!-- TAB 5: PRIJESTONICA CETINJE -->
+        <div class="portfolio-tabpanel" role="tabpanel">
+          <article class="portfolio-card">
+            <div class="portfolio-img-wrap">
+              <img
+                class="cover"
+                src="https://cdn.jsdelivr.net/gh/h4dz1x/mmg-portfolio@main/assets/cetinje/cover.webp"
+                alt="Prijestonica Cetinje"
+              />
+            </div>
+            <div class="portfolio-info">
+              <div class="portfolio-logo-slot">
+                <img
+                  class="portfolio-logo-img"
+                  src="https://cdn.jsdelivr.net/gh/h4dz1x/mmg-portfolio@main/assets/cetinje/logo.svg"
+                  alt="Prijestonica Cetinje"
+                />
+              </div>
+              <div class="portfolio-tags">
+                <span class="portfolio-chip">Solutions</span>
+                <span class="portfolio-chip">Create</span>
+                <span class="portfolio-chip">Digital</span>
+                <span class="portfolio-chip">Ads</span>
+              </div>
+              <h2 class="portfolio-project-title">Prijestonica Cetinje</h2>
+              <div class="portfolio-divider"></div>
+              <p class="portfolio-desc">
+                Za Prijestonicu Cetinje, Mastermind tim je radio na
+                kontinuiranoj komunikaciji institucije koja ima posebno mjesto u
+                kulturnom, društvenom i javnom životu Crne Gore. Naš rad
+                obuhvatio je strategiju, vizuelni sistem, copywriting, print
+                dizajn, foto i video produkciju, animaciju, upravljanje
+                društvenim mrežama, kreiranje sadržaja, Meta oglašavanje,
+                outdoor, media buying i PR. Cilj je bio da komunikacija
+                Prijestonice bude jasna, savremena i vizuelno prepoznatljiva.
+              </p>
+              <div class="portfolio-clients">
+                <div class="portfolio-client">
+                  <span>→</span>Prijestonica Cetinje
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <!-- TAB 6: GRAĐANSKA ALIJANSA -->
+        <div class="portfolio-tabpanel" role="tabpanel">
+          <article class="portfolio-card">
+            <div class="portfolio-img-wrap">
+              <img
+                class="cover"
+                src="https://cdn.jsdelivr.net/gh/h4dz1x/mmg-portfolio@main/assets/ga/event.webp"
+                alt="Građanska alijansa"
+              />
+            </div>
+            <div class="portfolio-info">
+              <div class="portfolio-logo-slot">
+                <img
+                  class="portfolio-logo-img lg"
+                  src="https://cdn.jsdelivr.net/gh/h4dz1x/mmg-portfolio@main/assets/ga/logo.svg"
+                  alt="Građanska alijansa"
+                />
+              </div>
+              <div class="portfolio-tags">
+                <span class="portfolio-chip">Solutions</span>
+                <span class="portfolio-chip">Create</span>
+                <span class="portfolio-chip">Digital</span>
+                <span class="portfolio-chip">Ads</span>
+                <span class="portfolio-chip">Event</span>
+              </div>
+              <h2 class="portfolio-project-title">Građanska alijansa</h2>
+              <div class="portfolio-divider"></div>
+              <p class="portfolio-desc">
+                Za Građansku alijansu, Mastermind tim je pružio komunikacionu,
+                produkcijsku i event podršku projektima koji se bave
+                demokratijom, ljudskim pravima i jačanjem civilnog društva. Naš
+                doprinos obuhvatio je savjetovanje, copywriting, print dizajn,
+                foto i video produkciju, razvoj vizuelnog sistema, vođenje
+                digitalnih kanala, kreiranje sadržaja, Meta oglašavanje i
+                organizaciju događaja. Fokus je bio na tome da društveno važne
+                teme budu predstavljene jasno, profesionalno i dostupno široj
+                javnosti.
+              </p>
+              <div class="portfolio-clients">
+                <div class="portfolio-client">
+                  <span>→</span>Građanska alijansa
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <!-- TAB 7: MESOESTETIC -->
+        <div class="portfolio-tabpanel" role="tabpanel">
+          <article class="portfolio-card">
+            <div class="portfolio-img-wrap">
+              <img
+                class="cover"
+                src="https://cdn.jsdelivr.net/gh/h4dz1x/mmg-portfolio@main/assets/mesoestetic/event.webp"
+                alt="Mesoestetic event"
+              />
+            </div>
+            <div class="portfolio-info">
+              <div class="portfolio-logo-slot">
+                <img
+                  class="portfolio-logo-img"
+                  src="https://cdn.jsdelivr.net/gh/h4dz1x/mmg-portfolio@main/assets/mesoestetic/logo.svg"
+                  alt="Mesoestetic"
+                />
+              </div>
+              <div class="portfolio-tags">
+                <span class="portfolio-chip">Solutions</span>
+                <span class="portfolio-chip">Create</span>
+                <span class="portfolio-chip">Digital</span>
+                <span class="portfolio-chip">Ads</span>
+                <span class="portfolio-chip">Event</span>
+              </div>
+              <h2 class="portfolio-project-title">Mesoestetic</h2>
+              <div class="portfolio-stats-list cols-2">
+                <div class="portfolio-stat-item">
+                  <div class="big">&gt;70</div>
+                  <div class="small">prikupljenih verifikovanih leadova</div>
+                </div>
+                <div class="portfolio-stat-item">
+                  <div class="big">x5</div>
+                  <div class="small">povrat investicije</div>
+                </div>
+              </div>
+              <div class="portfolio-divider"></div>
+              <p class="portfolio-desc">
+                Za našeg klijenta Mesoestetic, Mastermind tim je razvio ciljanu
+                kampanju za promociju obuke Mesoestetic protokola, plasiranu
+                putem Meta Ads. Kampanja je privukla stručnjake iz estetike i
+                kozmetike, generišući preko 70 kvalifikovanih leadova s ROI-jem
+                od 3–5 puta. Pružili smo i tehničku podršku kroz hands-on
+                snimanje, obezbjeđujući visokokvalitetne vizualne materijale za
+                događaj.
+              </p>
+              <div class="portfolio-clients">
+                <div class="portfolio-client"><span>→</span>Mesoestetic</div>
+                <div class="portfolio-client">
+                  <span>→</span>Zvanični distributer Netpharm
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <!-- TAB 8: PROFHILO -->
+        <div class="portfolio-tabpanel" role="tabpanel">
+          <article class="portfolio-card">
+            <div class="portfolio-img-wrap">
+              <img
+                class="cover"
+                src="https://cdn.jsdelivr.net/gh/h4dz1x/mmg-portfolio@main/assets/profhilo/event.webp"
+                alt="Profhilo Structura — Hilton Podgorica"
+              />
+            </div>
+            <div class="portfolio-info">
+              <div class="portfolio-logo-slot">
+                <img
+                  class="portfolio-logo-img"
+                  src="https://cdn.jsdelivr.net/gh/h4dz1x/mmg-portfolio@main/assets/profhilo/logo.webp"
+                  alt="Profhilo"
+                />
+              </div>
+              <div class="portfolio-tags">
+                <span class="portfolio-chip">Event</span>
+                <span class="portfolio-chip">Create</span>
+              </div>
+              <h2 class="portfolio-project-title">
+                Profhilo Structura — Hilton Podgorica
+              </h2>
+              <div class="portfolio-divider"></div>
+              <p class="portfolio-desc">
+                Za predstavljanje proizvoda Profhilo Structura u hotelu Hilton
+                Podgorica, Mastermind tim je bio zadužen za kompletnu
+                organizaciju i produkciju događaja. Od planiranja i koordinacije
+                do vizuelne realizacije prostora, razvili smo sve ključne
+                elemente eventa. Kreirali smo i isporučili print materijale,
+                postavku i dekoraciju, te obezbijedili potpunu logistiku na licu
+                mjesta. Događaj smo dodatno dokumentovali kroz profesionalni
+                foto i video sadržaj, spreman za dalju PR i digitalnu upotrebu.
+              </p>
+              <div class="portfolio-clients">
+                <div class="portfolio-client"><span>→</span>IBSA Derma</div>
+                <div class="portfolio-client">
+                  <span>→</span>Profhilo Structura
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      (function () {
+        const tabs = document.querySelectorAll(".portfolio-tab");
+        const panels = document.querySelectorAll(".portfolio-tabpanel");
+
+        tabs.forEach((tab) => {
+          tab.addEventListener("click", () => {
+            const i = Number(tab.dataset.tab);
+            tabs.forEach((t) => {
+              const isActive = t === tab;
+              t.classList.toggle("active", isActive);
+              t.setAttribute("aria-selected", isActive ? "true" : "false");
+            });
+            panels.forEach((p, idx) => p.classList.toggle("active", idx === i));
+          });
+        });
+      })();
+    </script>
+  </body>
+</html>
