@@ -78,21 +78,22 @@
 }
 .portfolio-img-wrap img.cover {
   width: 100%; height: 100%; object-fit: cover; display: block;
-  filter: saturate(.85) contrast(1.06) brightness(.93);
+  filter: saturate(.72) contrast(1.14) brightness(.85);
   transition: filter .6s ease, transform .9s cubic-bezier(.2,.8,.2,1);
   will-change: filter, transform;
 }
-.portfolio-img-wrap::after {
-  content: ""; position: absolute; inset: 0; pointer-events: none;
-  background: radial-gradient(120% 80% at 50% 110%, rgba(108,71,199,.18), transparent 60%);
-  mix-blend-mode: overlay; opacity: .9;
+.portfolio-img-wrap::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 2;
+  background:
+    radial-gradient(110% 70% at 50% 110%, rgba(108,71,199,.42), transparent 65%),
+    linear-gradient(180deg, rgba(14,13,20,.18) 0%, transparent 40%, rgba(14,13,20,.42) 100%);
   transition: opacity .6s ease;
 }
 .portfolio-img-wrap:hover img.cover {
   filter: saturate(1) contrast(1) brightness(1);
   transform: scale(1.025);
 }
-.portfolio-img-wrap:hover::after { opacity: 0; }
+.portfolio-img-wrap:hover::before { opacity: .35; }
 .portfolio-logo-img {
   height: 48px; max-width: 200px; object-fit: contain; display: block;
 }
@@ -556,7 +557,7 @@
 
       <article class="portfolio-card">
         <div class="portfolio-img-wrap">
-          <img class="cover" src="https://cdn.jsdelivr.net/gh/h4dz1x/mmg-portfolio@main/assets/borovnice/cover.webp" alt="Dani borovnice">
+          <img class="cover" src="https://cdn.jsdelivr.net/gh/h4dz1x/mmg-portfolio@main/assets/borovnice/cover-v2.webp" alt="Dani borovnice">
         </div>
         <div class="portfolio-info">
           <div class="portfolio-logo-slot"><img class="portfolio-logo-img tall" src="https://cdn.jsdelivr.net/gh/h4dz1x/mmg-portfolio@main/assets/borovnice/logo.webp" alt="Dani borovnice"></div>
@@ -616,7 +617,7 @@
 
       <article class="portfolio-card">
         <div class="portfolio-img-wrap">
-          <img class="cover" src="https://cdn.jsdelivr.net/gh/h4dz1x/mmg-portfolio@main/assets/greencity/cover.webp" alt="Green City">
+          <img class="cover" src="https://cdn.jsdelivr.net/gh/h4dz1x/mmg-portfolio@main/assets/greencity/cover-v2.webp" alt="Green City">
         </div>
         <div class="portfolio-info">
           <div class="portfolio-logo-slot"><img class="portfolio-logo-img lg" src="https://cdn.jsdelivr.net/gh/h4dz1x/mmg-portfolio@main/assets/greencity/logo.webp" alt="Green City"></div>
