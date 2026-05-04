@@ -768,7 +768,6 @@
         t.setAttribute('aria-selected', isActive ? 'true' : 'false');
       });
       panels.forEach((p, idx) => p.classList.toggle('active', idx === i));
-      window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   });
 })();
