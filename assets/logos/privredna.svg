@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="1000" height="1000" role="img" aria-label="Logo mark">
+  
+  <g fill="#A8A8A8">
+    
+    <polygon points="500,40 713.7,255.8 500,471.7 286.3,255.8"></polygon>
+    
+    <polygon points="255.8,286.3 469.6,500 255.8,713.7 42.1,500"></polygon>
+    
+    <polygon points="500,528.3 713.7,744.2 500,959.3 286.3,744.2"></polygon>
+  </g>
+  
+  <g fill="#CFCFCF">
+    
+    <polygon points="770.3,255.8 986.2,255.8 770.3,471.7 554.5,471.7"></polygon>
+    
+    <polygon points="554.5,528.3 770.3,528.3 986.2,744.2 770.3,744.2"></polygon>
+  </g>
+</svg>
